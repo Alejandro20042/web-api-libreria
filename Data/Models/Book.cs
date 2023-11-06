@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebApi_ASA.Data.Models
 {
@@ -14,5 +15,12 @@ namespace WebApi_ASA.Data.Models
         public string Autor {  get; set; }
         public string CoverUrl {  get; set; }
         public DateTime DateAdded { get; set; }
+
+        //Propiedades de Navegacion(en esta parte es donde "mapeamos ")
+
+        public int PublisherId {  get; set; }
+        public Publisher Publisher { get; set;}
+        public List<Book_Author> Book_Authors { get; set; }
+
     }
 }

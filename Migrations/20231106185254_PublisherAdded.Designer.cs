@@ -3,36 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi_ASA.Data;
 
 namespace WebApi_ASA.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231106185254_PublisherAdded")]
+    partial class PublisherAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("WebApi_ASA.Data.Models.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Authors");
-                });
 
             modelBuilder.Entity("WebApi_ASA.Data.Models.Book", b =>
                 {
@@ -78,28 +65,6 @@ namespace WebApi_ASA.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("WebApi_ASA.Data.Models.Book_Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("Book_Author");
-                });
-
             modelBuilder.Entity("WebApi_ASA.Data.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -118,7 +83,7 @@ namespace WebApi_ASA.Migrations
             modelBuilder.Entity("WebApi_ASA.Data.Models.Book", b =>
                 {
                     b.HasOne("WebApi_ASA.Data.Models.Publisher", "Publisher")
-                        .WithMany("Book")
+                        .WithMany("Books")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -126,38 +91,9 @@ namespace WebApi_ASA.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("WebApi_ASA.Data.Models.Book_Author", b =>
-                {
-                    b.HasOne("WebApi_ASA.Data.Models.Author", "Author")
-                        .WithMany("Book_Authors")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApi_ASA.Data.Models.Book", "Book")
-                        .WithMany("Book_Authors")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("WebApi_ASA.Data.Models.Author", b =>
-                {
-                    b.Navigation("Book_Authors");
-                });
-
-            modelBuilder.Entity("WebApi_ASA.Data.Models.Book", b =>
-                {
-                    b.Navigation("Book_Authors");
-                });
-
             modelBuilder.Entity("WebApi_ASA.Data.Models.Publisher", b =>
                 {
-                    b.Navigation("Book");
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
